@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     passport =  require('passport'),
@@ -24,10 +23,6 @@ app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true,
-    store: new MongoStore({
-        url: process.env.MONGODB_URI,
-        autoReconnect: true
-    })
 }));
 
 app.use(passport.initialize());
