@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
@@ -5,7 +6,6 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     passport =  require('passport'),
     passportConfig = require('./config/passport'),
-    MONGO_URL = 'mongodb://127.0.0.1:27017/auth',
     userController = require('./controllers/user'),
     app = express(),
     http = require('http').Server(app),
@@ -14,7 +14,7 @@ const express = require('express'),
     Score = require('./models/Score');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(MONGO_URL);
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('error', (err) => {
   throw err;
   process.exit(1);
@@ -25,7 +25,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
     store: new MongoStore({
-        url: MONGO_URL,
+        url: process.env.MONGODB_URI,
         autoReconnect: true
     })
 }));
